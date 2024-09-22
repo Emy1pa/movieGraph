@@ -5,7 +5,8 @@ import connectToDB from "./config/db.mjs";
 import { notFound, errorHandler } from "./middlewares/errors.mjs";
 import subadminRoutes from "./routes/subadminRoutes.mjs";
 import userRoutes from "./routes/userRoutes.mjs";
-import passwordRoute from "./routes/passwordRoute.mjs";
+import passwordRoutes from "./routes/passwordRoute.mjs";
+import movieRoutes from "./routes/movieRoutes.mjs";
 import helmet from "helmet";
 import cors from "cors";
 connectToDB();
@@ -22,7 +23,8 @@ app.use(express.urlencoded({ extended: false }));
 // Routes
 app.use("/api/admin", subadminRoutes);
 app.use("/api/auth", userRoutes);
-app.use("/password", passwordRoute);
+app.use("/api/movies", movieRoutes);
+app.use("/password", passwordRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
