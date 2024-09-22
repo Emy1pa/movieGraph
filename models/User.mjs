@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import Joi from "joi";
 import jwt from "jsonwebtoken";
-
+import passwordComplexity from "joi-password-complexity";
 const UserSchema = new mongoose.Schema(
   {
     firstName: {
@@ -30,7 +30,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      minLength: 6,
+      minLength: 8,
     },
     role: {
       type: String,
@@ -48,7 +48,7 @@ export function validateRegisterUser(obj) {
     firstName: Joi.string().trim().min(5).max(100).required(),
     lastName: Joi.string().trim().min(5).max(100).required(),
     email: Joi.string().trim().min(5).max(100).required().email(),
-    password: Joi.string().trim().min(6).required(),
+    password: passwordComplexity().required(),
   });
   return schema.validate(obj);
 }
@@ -59,12 +59,18 @@ export function validateLoginUser(obj) {
   });
   return schema.validate(obj);
 }
+export function validateChangePassword(obj) {
+  const schema = Joi.object({
+    password: passwordComplexity().required(),
+  });
+  return schema.validate(obj);
+}
 export function validateUpdateUser(obj) {
   const schema = Joi.object({
     firstName: Joi.string().trim().min(5).max(100),
     lastName: Joi.string().trim().min(5).max(100),
     email: Joi.string().trim().min(5).max(100).email(),
-    password: Joi.string().trim().min(6),
+    password: passwordComplexity(),
   });
   return schema.validate(obj);
 }
