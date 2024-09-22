@@ -20,6 +20,9 @@ export async function register(req, res) {
       lastName: req.body.lastName,
       email: req.body.email,
       password: hashedPassword,
+      image: req.body.image,
+      phoneNumber: req.body.phoneNumber,
+      address: req.body.address,
     });
     await user.save();
     const token = user.generateAuthToken();
@@ -70,6 +73,9 @@ export async function updateUser(req, res) {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
+      image: req.body.image,
+      phoneNumber: req.body.phoneNumber,
+      address: req.body.address,
     };
     if (req.body.password) {
       const salt = await bcrypt.genSalt(10);
