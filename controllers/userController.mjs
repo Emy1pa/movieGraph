@@ -1,3 +1,5 @@
+import nodemailer from "nodemailer";
+
 import User, {
   validateLoginUser,
   validateRegisterUser,
@@ -138,5 +140,57 @@ export async function logOut(req, res) {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Something went wrong" });
+  }
+}
+export async function getUserInfo(req, res) {
+  try {
+    const user = await User.findById(req.params.id).select("-password");
+    console.log("User ID:", req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.USER_EMAIL,
+        pass: process.env.USER_PASS,
+      },
+    });
+    const mailOptions = {
+      from: process.env.USER_EMAIL,
+      to: user.email,
+      subject: "Your Information",
+      html: `
+  <div style="font-family: Arial, sans-serif; margin: 20px; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
+    <h1 style="color: #333;">Your Information</h1>
+    <p style="font-size: 16px; line-height: 1.5; color: #555;">
+      <strong>Name:</strong> ${user.firstName} ${user.lastName}
+    </p>
+    <p style="font-size: 16px; line-height: 1.5; color: #555;">
+      <strong>Email:</strong> ${user.email}
+    </p>
+    <p style="font-size: 16px; line-height: 1.5; color: #555;">
+      <strong>Phone:</strong> ${user.phoneNumber}
+    </p>
+    <p style="font-size: 16px; line-height: 1.5; color: #555;">
+      <strong>Address:</strong> ${user.address}
+    </p>
+    <p style="font-size: 16px; line-height: 1.5; color: #555;">
+      <strong>Role:</strong> ${user.role}
+    </p>
+    <p style="margin-top: 20px; font-size: 14px; color: #777;">
+      Thank you for using our service!
+    </p>
+  </div>
+`,
+    };
+    await transporter.sendMail(mailOptions);
+    res
+      .status(200)
+      .json({ message: "Your information was sent to your email." });
+  } catch (error) {
+    console.error("Error sending user information:", error);
+    res.status(500).json({ message: "Something went wrong." });
   }
 }

@@ -7,6 +7,7 @@ import {
   GetUserById,
   DeleteUser,
   logOut,
+  getUserInfo,
 } from "../controllers/userController.mjs";
 import {
   verifyTokenAndAdmin,
@@ -21,4 +22,6 @@ router.get("/users", verifyTokenAndAdmin, getUsers);
 router.get("/user/:id", verifyTokenAndAuthorization, GetUserById);
 router.delete("/user/:id", verifyTokenAndAdmin, DeleteUser);
 router.post("/logout", verifyTokenAndAuthorization, logOut);
+router.get("/me/:id", verifyTokenAndAuthorization, getUserInfo);
+
 export default router;
