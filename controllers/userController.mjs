@@ -6,6 +6,7 @@ import User, {
   validateUpdateUser,
 } from "../models/User.mjs";
 import bcrypt from "bcryptjs";
+
 export async function register(req, res) {
   try {
     const { error } = validateRegisterUser(req.body);
@@ -67,7 +68,9 @@ export async function updateUser(req, res) {
       return res.status(400).json({ message: error.details[0].message });
     }
 
-    const user = await User.findById(req.params.id);
+    const cleanId = req.user.id.trim();
+
+    const user = await User.findById(cleanId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -162,27 +165,35 @@ export async function getUserInfo(req, res) {
       to: user.email,
       subject: "Your Information",
       html: `
-  <div style="font-family: Arial, sans-serif; margin: 20px; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
-    <h1 style="color: #333;">Your Information</h1>
-    <p style="font-size: 16px; line-height: 1.5; color: #555;">
+  <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #ffffff; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+  <div style="background-color: #4a90e2; color: #ffffff; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
+    <svg style="width: 50px; height: 50px; margin-bottom: 10px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+      <polyline points="22,6 12,13 2,6"></polyline>
+    </svg>
+    <h1 style="margin: 0; font-size: 24px;">Your Information</h1>
+  </div>
+  <div style="padding: 20px;">
+    <p style="font-size: 16px; line-height: 1.5; color: #333; margin: 10px 0;">
       <strong>Name:</strong> ${user.firstName} ${user.lastName}
     </p>
-    <p style="font-size: 16px; line-height: 1.5; color: #555;">
+    <p style="font-size: 16px; line-height: 1.5; color: #333; margin: 10px 0;">
       <strong>Email:</strong> ${user.email}
     </p>
-    <p style="font-size: 16px; line-height: 1.5; color: #555;">
+    <p style="font-size: 16px; line-height: 1.5; color: #333; margin: 10px 0;">
       <strong>Phone:</strong> ${user.phoneNumber}
     </p>
-    <p style="font-size: 16px; line-height: 1.5; color: #555;">
+    <p style="font-size: 16px; line-height: 1.5; color: #333; margin: 10px 0;">
       <strong>Address:</strong> ${user.address}
     </p>
-    <p style="font-size: 16px; line-height: 1.5; color: #555;">
+    <p style="font-size: 16px; line-height: 1.5; color: #333; margin: 10px 0;">
       <strong>Role:</strong> ${user.role}
     </p>
-    <p style="margin-top: 20px; font-size: 14px; color: #777;">
-      Thank you for using our service!
-    </p>
   </div>
+  <div style="background-color: #f9f9f9; padding: 15px; text-align: center; font-size: 14px; color: #777; border-radius: 0 0 8px 8px;">
+    Thank you for using our service!
+  </div>
+</div>
 `,
     };
     await transporter.sendMail(mailOptions);

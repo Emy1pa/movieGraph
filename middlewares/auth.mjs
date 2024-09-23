@@ -5,6 +5,7 @@ function verifyToken(req, res, next) {
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+      console.log(decoded);
       req.user = decoded;
       next();
     } catch (error) {
@@ -19,11 +20,14 @@ function verifyToken(req, res, next) {
 
 function verifyTokenAndAuthorization(req, res, next) {
   verifyToken(req, res, () => {
-    if (req.user.id === req.params.id || req.user.role === "admin") {
+    const cleanUserId = req.user.id.toString().trim();
+    const cleanParamId = req.params.id.toString().trim();
+    if (cleanUserId === cleanParamId || req.user.role === "admin") {
+      console.log("Authorization passed");
       next();
     } else {
       return res.status(403).json({
-        message: "You are not allowed to this action",
+        message: "You are not allowed to perform this action",
       });
     }
   });
