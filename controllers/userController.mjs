@@ -28,9 +28,9 @@ export async function register(req, res) {
       address: req.body.address,
     });
     await user.save();
-    const token = user.generateAuthToken();
+
     const { password, ...other } = user._doc;
-    res.status(201).json({ ...other, token });
+    res.status(201).json({ ...other });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something went wrong" });

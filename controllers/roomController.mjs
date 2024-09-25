@@ -39,9 +39,9 @@ export async function getRoomById(req, res) {
   }
 }
 
-export async function updateRoom(req, res) {
+export async function updateTheRoom(req, res) {
   try {
-    const { error } = updateRoom(req.body);
+    const { error } = UpdateRoom(req.body);
     if (error)
       return res.status(400).json({ message: error.details[0].message });
 

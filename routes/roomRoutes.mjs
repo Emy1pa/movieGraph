@@ -3,7 +3,7 @@ import {
   createRoom,
   getRooms,
   getRoomById,
-  updateRoom,
+  updateTheRoom,
   deleteRoom,
 } from "../controllers/roomController.mjs";
 import { verifyTokenAndAdmin } from "../middlewares/auth.mjs";
@@ -16,7 +16,7 @@ router.get("/", verifyTokenAndAdmin, getRooms);
 
 router.get("/:id", verifyTokenAndAdmin, getRoomById);
 
-router.put("/:id", verifyTokenAndAdmin, updateRoom);
+router.put("/:id", verifyTokenAndAdmin, updateTheRoom);
 
 router.delete("/:id", verifyTokenAndAdmin, deleteRoom);
 

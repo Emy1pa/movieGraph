@@ -103,7 +103,7 @@ UserSchema.methods.generateAuthToken = function () {
     },
     process.env.JWT_SECRET_KEY,
     {
-      expiresIn: "1h",
+      expiresIn: "2d",
     }
   );
   return token;
