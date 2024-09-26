@@ -1,6 +1,7 @@
-import Room, { validateRoom, UpdateRoom } from "../models/Room.mjs";
+const Room = require("../models/Room.js");
+const { validateRoom, UpdateRoom } = require("../models/Room.js");
 
-export async function createRoom(req, res) {
+async function createRoom(req, res) {
   try {
     const { error } = validateRoom(req.body);
     if (error)
@@ -15,7 +16,7 @@ export async function createRoom(req, res) {
   }
 }
 
-export async function getRooms(req, res) {
+async function getRooms(req, res) {
   try {
     const rooms = await Room.find();
     res.status(200).json(rooms);
@@ -25,7 +26,7 @@ export async function getRooms(req, res) {
   }
 }
 
-export async function getRoomById(req, res) {
+async function getRoomById(req, res) {
   try {
     const room = await Room.findById(req.params.id);
     if (room) {
@@ -39,7 +40,7 @@ export async function getRoomById(req, res) {
   }
 }
 
-export async function updateTheRoom(req, res) {
+async function updateTheRoom(req, res) {
   try {
     const { error } = UpdateRoom(req.body);
     if (error)
@@ -61,7 +62,7 @@ export async function updateTheRoom(req, res) {
   }
 }
 
-export async function deleteRoom(req, res) {
+async function deleteRoom(req, res) {
   try {
     const room = await Room.findByIdAndDelete(req.params.id);
     if (room) {
@@ -74,3 +75,11 @@ export async function deleteRoom(req, res) {
     res.status(500).json({ message: "Something went wrong" });
   }
 }
+
+module.exports = {
+  createRoom,
+  getRooms,
+  getRoomById,
+  updateTheRoom,
+  deleteRoom,
+};

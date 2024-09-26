@@ -1,13 +1,13 @@
-import nodemailer from "nodemailer";
-
-import User, {
+const nodemailer = require("nodemailer");
+const {
+  User,
   validateLoginUser,
   validateRegisterUser,
   validateUpdateUser,
-} from "../models/User.mjs";
-import bcrypt from "bcryptjs";
+} = require("../models/User");
+const bcrypt = require("bcryptjs");
 
-export async function register(req, res) {
+async function register(req, res) {
   try {
     const { error } = validateRegisterUser(req.body);
     if (error)
@@ -36,7 +36,8 @@ export async function register(req, res) {
     res.status(500).json({ message: "Something went wrong" });
   }
 }
-export async function login(req, res) {
+
+async function login(req, res) {
   try {
     const { error } = validateLoginUser(req.body);
     if (error) {
@@ -61,7 +62,8 @@ export async function login(req, res) {
     res.status(500).json({ message: "Something went wrong" });
   }
 }
-export async function updateUser(req, res) {
+
+async function updateUser(req, res) {
   try {
     const { error } = validateUpdateUser(req.body);
     if (error) {
@@ -98,7 +100,7 @@ export async function updateUser(req, res) {
   }
 }
 
-export async function getUsers(req, res) {
+async function getUsers(req, res) {
   try {
     const users = await User.find().select("-password");
     res.status(200).json(users);
@@ -108,7 +110,7 @@ export async function getUsers(req, res) {
   }
 }
 
-export async function GetUserById(req, res) {
+async function getUserById(req, res) {
   try {
     const user = await User.findById(req.params.id).select("-password");
     if (user) {
@@ -122,7 +124,7 @@ export async function GetUserById(req, res) {
   }
 }
 
-export async function DeleteUser(req, res) {
+async function deleteUser(req, res) {
   try {
     const user = await User.findById(req.params.id).select("-password");
     if (user) {
@@ -137,7 +139,7 @@ export async function DeleteUser(req, res) {
   }
 }
 
-export async function logOut(req, res) {
+async function logOut(req, res) {
   try {
     res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
@@ -145,7 +147,8 @@ export async function logOut(req, res) {
     res.status(500).json({ message: "Something went wrong" });
   }
 }
-export async function getUserInfo(req, res) {
+
+async function getUserInfo(req, res) {
   try {
     const user = await User.findById(req.params.id).select("-password");
     console.log("User ID:", req.user.id);
@@ -165,36 +168,36 @@ export async function getUserInfo(req, res) {
       to: user.email,
       subject: "Your Information",
       html: `
-  <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #ffffff; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-  <div style="background-color: #4a90e2; color: #ffffff; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
-    <svg style="width: 50px; height: 50px; margin-bottom: 10px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-      <polyline points="22,6 12,13 2,6"></polyline>
-    </svg>
-    <h1 style="margin: 0; font-size: 24px;">Your Information</h1>
-  </div>
-  <div style="padding: 20px;">
-    <p style="font-size: 16px; line-height: 1.5; color: #333; margin: 10px 0;">
-      <strong>Name:</strong> ${user.firstName} ${user.lastName}
-    </p>
-    <p style="font-size: 16px; line-height: 1.5; color: #333; margin: 10px 0;">
-      <strong>Email:</strong> ${user.email}
-    </p>
-    <p style="font-size: 16px; line-height: 1.5; color: #333; margin: 10px 0;">
-      <strong>Phone:</strong> ${user.phoneNumber}
-    </p>
-    <p style="font-size: 16px; line-height: 1.5; color: #333; margin: 10px 0;">
-      <strong>Address:</strong> ${user.address}
-    </p>
-    <p style="font-size: 16px; line-height: 1.5; color: #333; margin: 10px 0;">
-      <strong>Role:</strong> ${user.role}
-    </p>
-  </div>
-  <div style="background-color: #f9f9f9; padding: 15px; text-align: center; font-size: 14px; color: #777; border-radius: 0 0 8px 8px;">
-    Thank you for using our service!
-  </div>
-</div>
-`,
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #ffffff; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+          <div style="background-color: #4a90e2; color: #ffffff; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
+            <svg style="width: 50px; height: 50px; margin-bottom: 10px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <h1 style="margin: 0; font-size: 24px;">Your Information</h1>
+          </div>
+          <div style="padding: 20px;">
+            <p style="font-size: 16px; line-height: 1.5; color: #333; margin: 10px 0;">
+              <strong>Name:</strong> ${user.firstName} ${user.lastName}
+            </p>
+            <p style="font-size: 16px; line-height: 1.5; color: #333; margin: 10px 0;">
+              <strong>Email:</strong> ${user.email}
+            </p>
+            <p style="font-size: 16px; line-height: 1.5; color: #333; margin: 10px 0;">
+              <strong>Phone:</strong> ${user.phoneNumber}
+            </p>
+            <p style="font-size: 16px; line-height: 1.5; color: #333; margin: 10px 0;">
+              <strong>Address:</strong> ${user.address}
+            </p>
+            <p style="font-size: 16px; line-height: 1.5; color: #333; margin: 10px 0;">
+              <strong>Role:</strong> ${user.role}
+            </p>
+          </div>
+          <div style="background-color: #f9f9f9; padding: 15px; text-align: center; font-size: 14px; color: #777; border-radius: 0 0 8px 8px;">
+            Thank you for using our service!
+          </div>
+        </div>
+      `,
     };
     await transporter.sendMail(mailOptions);
     res
@@ -205,3 +208,14 @@ export async function getUserInfo(req, res) {
     res.status(500).json({ message: "Something went wrong." });
   }
 }
+
+module.exports = {
+  register,
+  login,
+  updateUser,
+  getUsers,
+  getUserById,
+  deleteUser,
+  logOut,
+  getUserInfo,
+};

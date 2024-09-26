@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import Joi from "joi";
+const mongoose = require("mongoose");
+const Joi = require("joi");
 
 const ReservationSchema = new mongoose.Schema(
   {
@@ -42,7 +42,8 @@ const ReservationSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-export function validateReservation(reservation) {
+
+function validateReservation(reservation) {
   const schema = Joi.object({
     user: Joi.string().required(),
     screening: Joi.string().required(),
@@ -61,7 +62,7 @@ export function validateReservation(reservation) {
   return schema.validate(reservation);
 }
 
-export function validateUpdateReservation(reservation) {
+function validateUpdateReservation(reservation) {
   const schema = Joi.object({
     seats: Joi.array()
       .items(
@@ -77,4 +78,9 @@ export function validateUpdateReservation(reservation) {
 }
 
 const Reservation = mongoose.model("Reservation", ReservationSchema);
-export default Reservation;
+
+module.exports = {
+  Reservation,
+  validateReservation,
+  validateUpdateReservation,
+};

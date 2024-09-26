@@ -1,12 +1,13 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   createRoom,
   getRooms,
   getRoomById,
   updateTheRoom,
   deleteRoom,
-} from "../controllers/roomController.mjs";
-import { verifyTokenAndAdmin } from "../middlewares/auth.mjs";
+} = require("../controllers/roomController");
+
+const { verifyTokenAndAdmin } = require("../middlewares/auth");
 
 const router = express.Router();
 
@@ -20,4 +21,4 @@ router.put("/:id", verifyTokenAndAdmin, updateTheRoom);
 
 router.delete("/:id", verifyTokenAndAdmin, deleteRoom);
 
-export default router;
+module.exports = router;

@@ -1,7 +1,8 @@
-import mongoose from "mongoose";
-import Joi from "joi";
-import jwt from "jsonwebtoken";
-import passwordComplexity from "joi-password-complexity";
+const mongoose = require("mongoose");
+const Joi = require("joi");
+const jwt = require("jsonwebtoken");
+const passwordComplexity = require("joi-password-complexity");
+
 const UserSchema = new mongoose.Schema(
   {
     firstName: {
@@ -58,7 +59,7 @@ const UserSchema = new mongoose.Schema(
   }
 );
 
-export function validateRegisterUser(obj) {
+function validateRegisterUser(obj) {
   const schema = Joi.object({
     firstName: Joi.string().trim().min(2).max(50).required(),
     lastName: Joi.string().trim().min(2).max(50).required(),
@@ -70,20 +71,23 @@ export function validateRegisterUser(obj) {
   });
   return schema.validate(obj);
 }
-export function validateLoginUser(obj) {
+
+function validateLoginUser(obj) {
   const schema = Joi.object({
     email: Joi.string().trim().min(5).max(100).required().email(),
     password: Joi.string().trim().min(6).required(),
   });
   return schema.validate(obj);
 }
-export function validateChangePassword(obj) {
+
+function validateChangePassword(obj) {
   const schema = Joi.object({
     password: passwordComplexity().required(),
   });
   return schema.validate(obj);
 }
-export function validateUpdateUser(obj) {
+
+function validateUpdateUser(obj) {
   const schema = Joi.object({
     firstName: Joi.string().trim().min(2).max(50),
     lastName: Joi.string().trim().min(2).max(50),
@@ -95,6 +99,7 @@ export function validateUpdateUser(obj) {
   });
   return schema.validate(obj);
 }
+
 UserSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
     {
@@ -110,4 +115,11 @@ UserSchema.methods.generateAuthToken = function () {
 };
 
 const User = mongoose.model("User", UserSchema);
-export default User;
+
+module.exports = {
+  User,
+  validateRegisterUser,
+  validateLoginUser,
+  validateChangePassword,
+  validateUpdateUser,
+};

@@ -1,10 +1,11 @@
-import User, {
+const User = require("../models/User.js");
+const {
   validateRegisterUser,
   validateUpdateUser,
-} from "../models/User.mjs";
-import bcrypt from "bcryptjs";
+} = require("../models/User.js");
+const bcrypt = require("bcryptjs");
 
-export async function createSubAdmin(req, res) {
+async function createSubAdmin(req, res) {
   try {
     if (req.user.role != "admin") {
       return res.status(403).json({ message: "Access denied" });
@@ -12,11 +13,14 @@ export async function createSubAdmin(req, res) {
     const { error } = validateRegisterUser(req.body);
     if (error)
       return res.status(400).json({ message: error.details[0].message });
+
     let user = await User.findOne({ email: req.body.email });
     if (user)
       return res.status(400).json({ message: "User already registered" });
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
     user = new User({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
@@ -24,6 +28,7 @@ export async function createSubAdmin(req, res) {
       password: hashedPassword,
       role: "subadmin",
     });
+
     await user.save();
     res.status(201).json({ message: "Subadmin created successfully" });
   } catch (error) {
@@ -31,7 +36,8 @@ export async function createSubAdmin(req, res) {
     res.status(500).json({ message: "Something went wrong" });
   }
 }
-export async function updateSubAdmin(req, res) {
+
+async function updateSubAdmin(req, res) {
   try {
     if (req.user.role !== "admin") {
       return res.status(403).json({ message: "Access denied" });
@@ -39,25 +45,29 @@ export async function updateSubAdmin(req, res) {
     const { error } = validateUpdateUser(req.body);
     if (error)
       return res.status(400).json({ message: error.details[0].message });
-    const user = await User.findById(req.params.id);
 
+    const user = await User.findById(req.params.id);
     if (!user || user.role !== "subadmin") {
       return res.status(404).json({ message: "Subadmin not found" });
     }
+
     let updatedFields = {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
     };
+
     if (req.body.password) {
       const salt = await bcrypt.genSalt(10);
       updatedFields.password = await bcrypt.hash(req.body.password, salt);
     }
+
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
       { $set: updatedFields },
       { new: true }
     ).select("-password");
+
     res
       .status(200)
       .json({ message: "Subadmin updated successfully", updatedUser });
@@ -66,15 +76,18 @@ export async function updateSubAdmin(req, res) {
     res.status(500).json({ message: "Something went wrong" });
   }
 }
-export async function deleteSubadmin(req, res) {
+
+async function deleteSubadmin(req, res) {
   try {
     if (req.user.role !== "admin") {
       return res.status(403).json({ message: "Access denied" });
     }
+
     const user = await User.findById(req.params.id);
     if (!user || user.role !== "subadmin") {
       return res.status(404).json({ message: "Subadmin not found" });
     }
+
     await User.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: "Subadmin deleted successfully" });
   } catch (error) {
@@ -82,3 +95,9 @@ export async function deleteSubadmin(req, res) {
     res.status(500).json({ message: "Something went wrong" });
   }
 }
+
+module.exports = {
+  createSubAdmin,
+  updateSubAdmin,
+  deleteSubadmin,
+};

@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import Joi from "joi";
+const mongoose = require("mongoose");
+const Joi = require("joi");
 
 const RoomSchema = new mongoose.Schema(
   {
@@ -50,7 +50,7 @@ const RoomSchema = new mongoose.Schema(
   }
 );
 
-export function validateRoom(room) {
+function validateRoom(room) {
   const schema = Joi.object({
     name: Joi.string().trim().min(1).max(100).required(),
     capacity: Joi.number().integer().min(1).required(),
@@ -68,7 +68,7 @@ export function validateRoom(room) {
   return schema.validate(room);
 }
 
-export function UpdateRoom(room) {
+function validateUpdateRoom(room) {
   const schema = Joi.object({
     name: Joi.string().trim().min(1).max(100),
     capacity: Joi.number().integer().min(1),
@@ -86,4 +86,9 @@ export function UpdateRoom(room) {
 }
 
 const Room = mongoose.model("Room", RoomSchema);
-export default Room;
+
+module.exports = {
+  Room,
+  validateRoom,
+  validateUpdateRoom,
+};

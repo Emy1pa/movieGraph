@@ -1,4 +1,4 @@
-export const screenings = [
+exports.screenings = [
   {
     _id: "640a1234567890abcdef1011",
     movie: "640a1234567890abcdef0101",

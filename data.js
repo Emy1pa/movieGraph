@@ -1,4 +1,4 @@
-export const movies = [
+exports.movies = [
   {
     _id: "640a1234567890abcdef0101",
     title: "The Avengers",
@@ -64,7 +64,7 @@ export const movies = [
     duration: 178,
     genre: "Fantasy",
     description:
-      "A hobbit, his Gandalf and their companions set out on a journey to destroy an powerful item which threatens their entire land.",
+      "A hobbit, his Gandalf and their companions set out on a journey to destroy a powerful item which threatens their entire land.",
     createdAt: "2023-03-24T12:00:00.000Z",
     updatedAt: "2023-03-24T12:00:00.000Z",
   },

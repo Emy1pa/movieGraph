@@ -1,27 +1,29 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   register,
   login,
   updateUser,
   getUsers,
-  GetUserById,
-  DeleteUser,
+  getUserById, // Remplacé ici
+  deleteUser,
   logOut,
   getUserInfo,
-} from "../controllers/userController.mjs";
-import {
+} = require("../controllers/userController");
+
+const {
   verifyTokenAndAdmin,
   verifyTokenAndAuthorization,
-} from "../middlewares/auth.mjs";
+} = require("../middlewares/auth");
+
 const router = express.Router();
 
 router.post("/register", register);
 router.post("/login", login);
 router.put("/user/:id", verifyTokenAndAuthorization, updateUser);
 router.get("/users", verifyTokenAndAdmin, getUsers);
-router.get("/user/:id", verifyTokenAndAuthorization, GetUserById);
-router.delete("/user/:id", verifyTokenAndAdmin, DeleteUser);
+router.get("/user/:id", verifyTokenAndAuthorization, getUserById);
+router.delete("/user/:id", verifyTokenAndAdmin, deleteUser);
 router.post("/logout", verifyTokenAndAuthorization, logOut);
 router.get("/me/:id", verifyTokenAndAuthorization, getUserInfo);
 
-export default router;
+module.exports = router;

@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import Joi from "joi";
+const mongoose = require("mongoose");
+const Joi = require("joi");
 
 const MovieSchema = new mongoose.Schema(
   {
@@ -35,7 +35,7 @@ const MovieSchema = new mongoose.Schema(
   }
 );
 
-export function validateMovie(movie) {
+function validateMovie(movie) {
   const schema = Joi.object({
     title: Joi.string().trim().min(1).max(200).required(),
     duration: Joi.number().integer().min(1).required(),
@@ -44,7 +44,8 @@ export function validateMovie(movie) {
   });
   return schema.validate(movie);
 }
-export function validateUpdateMovie(movie) {
+
+function validateUpdateMovie(movie) {
   const schema = Joi.object({
     title: Joi.string().trim().min(1).max(200),
     duration: Joi.number().integer().min(1),
@@ -55,4 +56,9 @@ export function validateUpdateMovie(movie) {
 }
 
 const Movie = mongoose.model("Movie", MovieSchema);
-export default Movie;
+
+module.exports = {
+  Movie,
+  validateMovie,
+  validateUpdateMovie,
+};

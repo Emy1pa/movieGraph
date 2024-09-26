@@ -1,12 +1,13 @@
-import User, { validateChangePassword } from "../models/User.mjs";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
-import nodemailer from "nodemailer";
+const User = require("../models/User");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const nodemailer = require("nodemailer");
 
-export function getForgotPasswordView(req, res) {
+function getForgotPasswordView(req, res) {
   res.render("forgot-password");
 }
-export async function sendForgotPasswordLink(req, res) {
+
+async function sendForgotPasswordLink(req, res) {
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
     return res.status(404).json({ message: "User not found" });
@@ -32,6 +33,7 @@ export async function sendForgotPasswordLink(req, res) {
     <p>${link}</p>
     </div>`,
   };
+
   transporter.sendMail(mailOptions, function (error, success) {
     if (error) {
       console.log(error);
@@ -42,7 +44,8 @@ export async function sendForgotPasswordLink(req, res) {
     }
   });
 }
-export async function getResetPasswordView(req, res) {
+
+async function getResetPasswordView(req, res) {
   const user = await User.findById(req.params.userId);
   if (!user) {
     return res.status(404).json({ message: "User not found" });
@@ -59,15 +62,17 @@ export async function getResetPasswordView(req, res) {
   }
 }
 
-export async function resetThePassword(req, res) {
+async function resetThePassword(req, res) {
   const { error } = validateChangePassword(req.body);
   if (error) {
-    res.status(400).json({ message: error.details[0].message });
+    return res.status(400).json({ message: error.details[0].message });
   }
+
   const user = await User.findById(req.params.userId);
   if (!user) {
     return res.status(404).json({ message: "User not found" });
   }
+
   const secret = process.env.JWT_SECRET_KEY + user.password;
   try {
     jwt.verify(req.params.token, secret);
@@ -84,3 +89,10 @@ export async function resetThePassword(req, res) {
   const link = `http://localhost:8800/password/reset-password/${user._id}/${token}`;
   res.json({ message: "Click on the link", resetPasswordLink: link });
 }
+
+module.exports = {
+  getForgotPasswordView,
+  sendForgotPasswordLink,
+  getResetPasswordView,
+  resetThePassword,
+};

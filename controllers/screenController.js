@@ -1,9 +1,10 @@
-import Screening, {
+const Screening = require("../models/Screen.js");
+const {
   validateScreening,
   validateUpdateScreening,
-} from "../models/Screen.mjs";
+} = require("../models/Screen.js");
 
-export async function createScreening(req, res) {
+async function createScreening(req, res) {
   try {
     const { error } = validateScreening(req.body);
     if (error)
@@ -18,7 +19,7 @@ export async function createScreening(req, res) {
   }
 }
 
-export async function getScreenings(req, res) {
+async function getScreenings(req, res) {
   try {
     const screenings = await Screening.find()
       .populate("movie")
@@ -30,7 +31,7 @@ export async function getScreenings(req, res) {
   }
 }
 
-export async function getScreeningById(req, res) {
+async function getScreeningById(req, res) {
   try {
     const screening = await Screening.findById(req.params.id)
       .populate("movie")
@@ -46,7 +47,7 @@ export async function getScreeningById(req, res) {
   }
 }
 
-export async function updateScreening(req, res) {
+async function updateScreening(req, res) {
   try {
     const { error } = validateUpdateScreening(req.body);
     if (error)
@@ -70,7 +71,7 @@ export async function updateScreening(req, res) {
   }
 }
 
-export async function deleteScreening(req, res) {
+async function deleteScreening(req, res) {
   try {
     const screening = await Screening.findByIdAndDelete(req.params.id);
     if (screening) {
@@ -86,7 +87,7 @@ export async function deleteScreening(req, res) {
   }
 }
 
-export async function getAvailableScreenings(req, res) {
+async function getAvailableScreenings(req, res) {
   try {
     const { movieId } = req.params;
     const screenings = await Screening.find({
@@ -102,3 +103,12 @@ export async function getAvailableScreenings(req, res) {
     res.status(500).json({ message: "Something went wrong" });
   }
 }
+
+module.exports = {
+  createScreening,
+  getScreenings,
+  getScreeningById,
+  updateScreening,
+  deleteScreening,
+  getAvailableScreenings,
+};

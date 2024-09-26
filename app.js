@@ -1,17 +1,18 @@
-import express from "express";
-import dotenv from "dotenv";
+const express = require("express");
+const dotenv = require("dotenv");
 dotenv.config();
-import connectToDB from "./config/db.mjs";
-import { notFound, errorHandler } from "./middlewares/errors.mjs";
-import subadminRoutes from "./routes/subadminRoutes.mjs";
-import userRoutes from "./routes/userRoutes.mjs";
-import passwordRoutes from "./routes/passwordRoute.mjs";
-import movieRoutes from "./routes/movieRoutes.mjs";
-import roomRoutes from "./routes/roomRoutes.mjs";
-import reservationRoutes from "./routes/reservationRoutes.mjs";
-import screenRoutes from "./routes/screenRoutes.mjs";
-import helmet from "helmet";
-import cors from "cors";
+const connectToDB = require("./config/db");
+const { notFound, errorHandler } = require("./middlewares/errors");
+const subadminRoutes = require("./routes/subadminRoutes");
+const userRoutes = require("./routes/userRoutes");
+const passwordRoutes = require("./routes/passwordRoute");
+const movieRoutes = require("./routes/movieRoutes");
+const roomRoutes = require("./routes/roomRoutes");
+const reservationRoutes = require("./routes/reservationRoutes");
+const screenRoutes = require("./routes/screenRoutes");
+const helmet = require("helmet");
+const cors = require("cors");
+
 connectToDB();
 const app = express();
 app.use(express.json());
@@ -19,7 +20,6 @@ app.use(helmet());
 app.use(cors());
 
 // View Engine
-
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
 

@@ -1,6 +1,7 @@
-import Movie, { validateMovie, validateUpdateMovie } from "../models/Movie.mjs";
+const Movie = require("../models/Movie");
+const { validateMovie, validateUpdateMovie } = require("../models/Movie");
 
-export async function createMovie(req, res) {
+async function createMovie(req, res) {
   try {
     const { error } = validateMovie(req.body);
     if (error)
@@ -15,7 +16,7 @@ export async function createMovie(req, res) {
   }
 }
 
-export async function getMovies(req, res) {
+async function getMovies(req, res) {
   try {
     const movies = await Movie.find();
     res.status(200).json(movies);
@@ -25,7 +26,7 @@ export async function getMovies(req, res) {
   }
 }
 
-export async function getMovieById(req, res) {
+async function getMovieById(req, res) {
   try {
     const movie = await Movie.findById(req.params.id);
     if (movie) {
@@ -39,7 +40,7 @@ export async function getMovieById(req, res) {
   }
 }
 
-export async function updateMovie(req, res) {
+async function updateMovie(req, res) {
   try {
     const { error } = validateUpdateMovie(req.body);
     if (error)
@@ -61,7 +62,7 @@ export async function updateMovie(req, res) {
   }
 }
 
-export async function deleteMovie(req, res) {
+async function deleteMovie(req, res) {
   try {
     const movie = await Movie.findByIdAndDelete(req.params.id);
     if (movie) {
@@ -74,3 +75,11 @@ export async function deleteMovie(req, res) {
     res.status(500).json({ message: "Something went wrong" });
   }
 }
+
+module.exports = {
+  createMovie,
+  getMovies,
+  getMovieById,
+  updateMovie,
+  deleteMovie,
+};

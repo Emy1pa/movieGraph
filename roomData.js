@@ -1,4 +1,4 @@
-export const rooms = [
+exports.rooms = [
   {
     _id: "640a1234567890abcdef0001",
     name: "Room A",

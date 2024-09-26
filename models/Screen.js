@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import Joi from "joi";
+const mongoose = require("mongoose");
+const Joi = require("joi");
 
 const ScreeningSchema = new mongoose.Schema(
   {
@@ -28,7 +28,7 @@ const ScreeningSchema = new mongoose.Schema(
   }
 );
 
-export function validateScreening(screening) {
+function validateScreening(screening) {
   const schema = Joi.object({
     movie: Joi.string().required(),
     room: Joi.string().required(),
@@ -38,7 +38,7 @@ export function validateScreening(screening) {
   return schema.validate(screening);
 }
 
-export function validateUpdateScreening(screening) {
+function validateUpdateScreening(screening) {
   const schema = Joi.object({
     movie: Joi.string(),
     room: Joi.string(),
@@ -49,4 +49,9 @@ export function validateUpdateScreening(screening) {
 }
 
 const Screening = mongoose.model("Screening", ScreeningSchema);
-export default Screening;
+
+module.exports = {
+  Screening,
+  validateScreening,
+  validateUpdateScreening,
+};

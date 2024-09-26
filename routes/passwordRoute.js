@@ -1,17 +1,21 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   getResetPasswordView,
   sendForgotPasswordLink,
   resetThePassword,
   getForgotPasswordView,
-} from "../controllers/passwordController.mjs";
+} = require("../controllers/passwordController");
+
 const router = express.Router();
+
 router
   .route("/forgot-password")
   .get(getForgotPasswordView)
   .post(sendForgotPasswordLink);
+
 router
   .route("/reset-password/:userId/:token")
   .get(getResetPasswordView)
   .post(resetThePassword);
-export default router;
+
+module.exports = router;

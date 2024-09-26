@@ -1,13 +1,12 @@
-import Reservation, {
-  validateReservation,
-  validateUpdateReservation,
-} from "../models/Reservation.mjs";
-import Room from "../models/Room.mjs";
-import Screen from "../models/Screen.mjs";
-import User from "../models/User.mjs";
-import nodemailer from "nodemailer";
-import dotenv from "dotenv";
+const Reservation = require("../models/Reservation");
+const Room = require("../models/Room");
+const Screen = require("../models/Screen");
+const User = require("../models/User");
+const nodemailer = require("nodemailer");
+const dotenv = require("dotenv");
+
 dotenv.config();
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -15,6 +14,7 @@ const transporter = nodemailer.createTransport({
     pass: process.env.USER_PASS,
   },
 });
+
 console.log("Email:", process.env.EMAIL);
 console.log("Email Password:", process.env.EMAIL_PASS ? "****" : "Not set");
 
@@ -22,7 +22,6 @@ async function sendEmail(to, subject, html) {
   const mailOptions = {
     from: process.env.EMAIL,
     to,
-
     subject,
     html,
   };
@@ -35,7 +34,7 @@ async function sendEmail(to, subject, html) {
   }
 }
 
-export async function createReservation(req, res) {
+async function createReservation(req, res) {
   try {
     const { error } = validateReservation(req.body);
     if (error)
@@ -55,7 +54,6 @@ export async function createReservation(req, res) {
     if (!existingRoom)
       return res.status(404).json({ message: "Room not found." });
 
-    // Check for seat availability
     const reservedSeats = await Reservation.find({ screening, room });
     const occupiedSeats = reservedSeats.flatMap((r) =>
       r.seats.map((s) => `${s.row}-${s.column}`)
@@ -70,7 +68,6 @@ export async function createReservation(req, res) {
       });
     }
 
-    // Create the reservation
     const reservation = new Reservation({
       user,
       screening,
@@ -80,7 +77,6 @@ export async function createReservation(req, res) {
     });
     await reservation.save();
 
-    // Email confirmation
     const reservationDetails = `
       <h1 style="text-align: center; color: #2c3e50;">Reservation Confirmation</h1>
       <p>Dear ${existingUser.firstName},</p>
@@ -110,9 +106,8 @@ export async function createReservation(req, res) {
       <p><strong>Your Cinema Team</strong></p>
     `;
 
-    // Send email confirmation to user
     await sendEmail(
-      existingUser.email, // Pass user email to the function
+      existingUser.email,
       "Your Reservation Confirmation",
       reservationDetails
     );
@@ -124,7 +119,7 @@ export async function createReservation(req, res) {
   }
 }
 
-export async function getReservations(req, res) {
+async function getReservations(req, res) {
   try {
     const reservations = await Reservation.find()
       .populate("user", "-password")
@@ -142,7 +137,7 @@ export async function getReservations(req, res) {
   }
 }
 
-export async function getReservationById(req, res) {
+async function getReservationById(req, res) {
   try {
     const reservation = await Reservation.findById(req.params.id)
       .populate("user")
@@ -158,7 +153,8 @@ export async function getReservationById(req, res) {
     res.status(500).json({ message: "Something went wrong" });
   }
 }
-export async function updateReservation(req, res) {
+
+async function updateReservation(req, res) {
   try {
     const { error } = validateUpdateReservation(req.body);
     if (error)
@@ -206,7 +202,7 @@ export async function updateReservation(req, res) {
   }
 }
 
-export async function deleteReservation(req, res) {
+async function deleteReservation(req, res) {
   try {
     const reservation = await Reservation.findByIdAndDelete(req.params.id);
     if (reservation) {
@@ -221,3 +217,11 @@ export async function deleteReservation(req, res) {
     res.status(500).json({ message: "Something went wrong" });
   }
 }
+
+module.exports = {
+  createReservation,
+  getReservations,
+  getReservationById,
+  updateReservation,
+  deleteReservation,
+};

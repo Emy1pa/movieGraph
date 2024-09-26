@@ -1,12 +1,12 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   createMovie,
   getMovies,
   getMovieById,
   updateMovie,
   deleteMovie,
-} from "../controllers/MovieController.mjs";
-import { verifyTokenAndAdmin } from "../middlewares/auth.mjs";
+} = require("../controllers/MovieController");
+const { verifyTokenAndAdmin } = require("../middlewares/auth");
 
 const router = express.Router();
 
@@ -20,4 +20,4 @@ router.put("/:id", verifyTokenAndAdmin, updateMovie);
 
 router.delete("/:id", verifyTokenAndAdmin, deleteMovie);
 
-export default router;
+module.exports = router;

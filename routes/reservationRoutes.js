@@ -1,12 +1,13 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   createReservation,
   getReservations,
   getReservationById,
   updateReservation,
   deleteReservation,
-} from "../controllers/reservationController.mjs";
-import { verifyToken, verifyTokenAndAdmin } from "../middlewares/auth.mjs";
+} = require("../controllers/reservationController");
+
+const { verifyToken, verifyTokenAndAdmin } = require("../middlewares/auth");
 
 const router = express.Router();
 
@@ -20,4 +21,4 @@ router.put("/:id", verifyTokenAndAdmin, updateReservation);
 
 router.delete("/:id", verifyTokenAndAdmin, deleteReservation);
 
-export default router;
+module.exports = router;

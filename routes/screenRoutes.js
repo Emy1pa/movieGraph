@@ -1,16 +1,17 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   createScreening,
   getScreenings,
   getScreeningById,
   updateScreening,
   deleteScreening,
   getAvailableScreenings,
-} from "../controllers/screenController.mjs";
-import {
+} = require("../controllers/screenController");
+
+const {
   verifyTokenAndAdmin,
   verifyTokenAndAuthorization,
-} from "../middlewares/auth.mjs";
+} = require("../middlewares/auth");
 
 const router = express.Router();
 
@@ -26,4 +27,4 @@ router.delete("/:id", verifyTokenAndAdmin, deleteScreening);
 
 router.get("/movie/:movieId", getAvailableScreenings);
 
-export default router;
+module.exports = router;
