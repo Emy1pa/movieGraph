@@ -1,5 +1,5 @@
-const User = require("../models/User.js");
 const {
+  User,
   validateRegisterUser,
   validateUpdateUser,
 } = require("../models/User.js");

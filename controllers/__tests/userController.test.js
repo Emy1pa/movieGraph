@@ -1,6 +1,7 @@
 const { validateRegisterUser } = require("../../models/User");
 const bcrypt = require("bcryptjs");
 const { validateLoginUser } = require("../../models/User");
+const { User } = require("../../models/User");
 describe("User Registration Validation", () => {
   it("should validate a valid user registration", () => {
     const validUser = {

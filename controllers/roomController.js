@@ -1,5 +1,4 @@
-const Room = require("../models/Room.js");
-const { validateRoom, UpdateRoom } = require("../models/Room.js");
+const { Room, validateRoom, UpdateRoom } = require("../models/Room.js");
 
 async function createRoom(req, res) {
   try {

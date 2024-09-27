@@ -1,5 +1,8 @@
-const Movie = require("../models/Movie");
-const { validateMovie, validateUpdateMovie } = require("../models/Movie");
+const {
+  Movie,
+  validateMovie,
+  validateUpdateMovie,
+} = require("../models/Movie");
 
 async function createMovie(req, res) {
   try {

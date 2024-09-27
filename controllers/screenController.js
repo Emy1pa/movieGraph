@@ -1,5 +1,5 @@
-const Screening = require("../models/Screen.js");
 const {
+  Screening,
   validateScreening,
   validateUpdateScreening,
 } = require("../models/Screen.js");
