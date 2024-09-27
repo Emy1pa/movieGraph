@@ -29,6 +29,13 @@ const MovieSchema = new mongoose.Schema(
       minLength: 1,
       maxLength: 1000,
     },
+    image: {
+      type: Object,
+      default: {
+        url: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+        publicId: null,
+      },
+    },
   },
   {
     timestamps: true,
@@ -41,6 +48,10 @@ function validateMovie(movie) {
     duration: Joi.number().integer().min(1).required(),
     genre: Joi.string().trim().min(1).max(50).required(),
     description: Joi.string().trim().min(1).max(1000).required(),
+    image: Joi.object({
+      url: Joi.string().uri(),
+      publicId: Joi.string().allow(null),
+    }),
   });
   return schema.validate(movie);
 }
@@ -51,6 +62,10 @@ function validateUpdateMovie(movie) {
     duration: Joi.number().integer().min(1),
     genre: Joi.string().trim().min(1).max(50),
     description: Joi.string().trim().min(1).max(1000),
+    image: Joi.object({
+      url: Joi.string().uri(),
+      publicId: Joi.string().allow(null),
+    }),
   });
   return schema.validate(movie);
 }
