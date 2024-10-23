@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 function verifyToken(req, res, next) {
   const token = req.headers.token;
-  console.log("Received token:", token);
+  console.log(token);
 
   if (token) {
     try {
@@ -11,6 +11,7 @@ function verifyToken(req, res, next) {
       req.user = decoded;
       next();
     } catch (error) {
+      console.log(error);
       return res.status(401).json({ error: "Invalid token" });
     }
   } else {
@@ -22,8 +23,12 @@ function verifyToken(req, res, next) {
 
 function verifyTokenAndAuthorization(req, res, next) {
   verifyToken(req, res, () => {
-    const cleanUserId = req.user.id.toString().trim();
-    const cleanParamId = req.params.id.toString().trim();
+    const cleanUserId = req.user.id;
+    const cleanParamId = req.params.id;
+    console.log("User ID from token:", cleanUserId);
+    console.log("User ID from params:", cleanParamId);
+    console.log("User role:", req.user.role);
+
     if (cleanUserId === cleanParamId || req.user.role === "admin") {
       console.log("Authorization passed");
       next();

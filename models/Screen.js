@@ -48,10 +48,10 @@ function validateUpdateScreening(screening) {
   return schema.validate(screening);
 }
 
-const Screening = mongoose.model("Screening", ScreeningSchema);
+const Screen = mongoose.model("Screening", ScreeningSchema);
 
 module.exports = {
-  Screening,
+  Screen,
   validateScreening,
   validateUpdateScreening,
 };

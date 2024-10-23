@@ -1,32 +1,47 @@
 const path = require("path");
 const multer = require("multer");
 
-const photoStorage = multer.diskStorage({
+const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, "../images"));
+    if (file.fieldname === "image") {
+      cb(null, path.join(__dirname, "../images"));
+    } else if (file.fieldname === "video") {
+      cb(null, path.join(__dirname, "../uploads"));
+    }
   },
   filename: function (req, file, cb) {
-    if (file) {
-      cb(null, new Date().toISOString().replace(/:/g, "-") + file.originalname);
-    } else {
-      cb(null, false);
-    }
+    const timestamp = new Date().toISOString().replace(/:/g, "-");
+    cb(null, `${timestamp}-${file.originalname}`);
   },
 });
 
-// Photo Upload Middleware
-const photoUpload = multer({
-  storage: photoStorage,
-  fileFilter: function (req, file, cb) {
-    if (file.mimetype.startsWith("image")) {
-      cb(null, true);
-    } else {
-      cb({ message: "Unsupported file format" }, false);
+// File filter function
+const fileFilter = (req, file, cb) => {
+  if (file.fieldname === "image") {
+    if (!file.mimetype.startsWith("image")) {
+      return cb(new Error("Only image files are allowed!"), false);
     }
-  },
+  } else if (file.fieldname === "video") {
+    if (!file.mimetype.startsWith("video")) {
+      return cb(new Error("Only video files are allowed!"), false);
+    }
+  }
+  cb(null, true);
+};
+
+// Configure multer
+const upload = multer({
+  storage: storage,
+  fileFilter: fileFilter,
   limits: {
-    fileSize: 1024 * 1024 * 2, // 2 mega byte
+    fileSize: (req, file) => {
+      if (file.fieldname === "image") {
+        return 2 * 1024 * 1024; // 2MB for images
+      } else if (file.fieldname === "video") {
+        return 50 * 1024 * 1024; // 50MB for videos
+      }
+    },
   },
 });
 
-module.exports = photoUpload;
+module.exports = upload;

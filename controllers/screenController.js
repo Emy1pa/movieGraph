@@ -1,5 +1,5 @@
 const {
-  Screening,
+  Screen,
   validateScreening,
   validateUpdateScreening,
 } = require("../models/Screen.js");
@@ -10,7 +10,7 @@ async function createScreening(req, res) {
     if (error)
       return res.status(400).json({ message: error.details[0].message });
 
-    const screening = new Screening(req.body);
+    const screening = new Screen(req.body);
     await screening.save();
     res.status(201).json(screening);
   } catch (error) {
@@ -21,9 +21,7 @@ async function createScreening(req, res) {
 
 async function getScreenings(req, res) {
   try {
-    const screenings = await Screening.find()
-      .populate("movie")
-      .populate("room");
+    const screenings = await Screen.find().populate("movie").populate("room");
     res.status(200).json(screenings);
   } catch (error) {
     console.log(error);
@@ -33,7 +31,7 @@ async function getScreenings(req, res) {
 
 async function getScreeningById(req, res) {
   try {
-    const screening = await Screening.findById(req.params.id)
+    const screening = await Screen.findById(req.params.id)
       .populate("movie")
       .populate("room");
     if (screening) {
@@ -53,7 +51,7 @@ async function updateScreening(req, res) {
     if (error)
       return res.status(400).json({ message: error.details[0].message });
 
-    const screening = await Screening.findByIdAndUpdate(
+    const screening = await Screen.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
       { new: true }
@@ -73,7 +71,7 @@ async function updateScreening(req, res) {
 
 async function deleteScreening(req, res) {
   try {
-    const screening = await Screening.findByIdAndDelete(req.params.id);
+    const screening = await Screen.findByIdAndDelete(req.params.id);
     if (screening) {
       res
         .status(200)
@@ -90,7 +88,7 @@ async function deleteScreening(req, res) {
 async function getAvailableScreenings(req, res) {
   try {
     const { movieId } = req.params;
-    const screenings = await Screening.find({
+    const screenings = await Screen.find({
       movie: movieId,
       dateTime: { $gte: new Date() },
     })

@@ -1,101 +1,242 @@
-exports.movies = [
+const movies = [
   {
-    _id: "640a1234567890abcdef0101",
-    title: "The Avengers",
-    duration: 143,
-    genre: "Action",
-    description: "A team of superheroes unite to save the world.",
-    createdAt: "2023-03-24T12:00:00.000Z",
-    updatedAt: "2023-03-24T12:00:00.000Z",
-  },
-  {
-    _id: "640a1234567890abcdef0102",
     title: "Inception",
     duration: 148,
     genre: "Sci-Fi",
     description:
-      "A team of thieves enters people's dreams to steal their secrets.",
-    createdAt: "2023-03-24T12:00:00.000Z",
-    updatedAt: "2023-03-24T12:00:00.000Z",
+      "A thief who steals corporate secrets through dream-sharing technology is given the task of planting an idea into a CEO's mind.",
+    published_at: new Date("2010-07-16"),
+    image: {
+      url: "https://res.cloudinary.com/dv13g84vz/image/upload/v1729108905/s57zlt5gzs3zcdnirvyg.jpg",
+      publicId: "s57zlt5gzs3zcdnirvyg",
+    },
+    video: {
+      url: null,
+      format: null,
+    },
+    visibility: "public",
   },
   {
-    _id: "640a1234567890abcdef0103",
+    title: "The Dark Knight",
+    duration: 152,
+    genre: "Action",
+    description:
+      "When the menace known as the Joker emerges from his mysterious past, he wreaks havoc and chaos on the people of Gotham.",
+    published_at: new Date("2008-07-18"),
+    image: {
+      url: "https://res.cloudinary.com/dv13g84vz/image/upload/v1729108905/s57zlt5gzs3zcdnirvyg.jpg",
+      publicId: "s57zlt5gzs3zcdnirvyg",
+    },
+    video: {
+      url: null,
+      format: null,
+    },
+    visibility: "public",
+  },
+  {
+    title: "Interstellar",
+    duration: 169,
+    genre: "Adventure",
+    description:
+      "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
+    published_at: new Date("2014-11-07"),
+    image: {
+      url: "https://res.cloudinary.com/dv13g84vz/image/upload/v1729108905/s57zlt5gzs3zcdnirvyg.jpg",
+      publicId: "s57zlt5gzs3zcdnirvyg",
+    },
+    video: {
+      url: null,
+      format: null,
+    },
+    visibility: "public",
+  },
+  {
+    title: "Parasite",
+    duration: 132,
+    genre: "Thriller",
+    description:
+      "Greedy, unemployed Ki-taek and his family scheme to become employed by a wealthy family and infiltrate their household.",
+    published_at: new Date("2019-05-30"),
+    image: {
+      url: "https://res.cloudinary.com/dv13g84vz/image/upload/v1729108905/s57zlt5gzs3zcdnirvyg.jpg",
+      publicId: "s57zlt5gzs3zcdnirvyg",
+    },
+    video: {
+      url: null,
+      format: null,
+    },
+    visibility: "public",
+  },
+  {
     title: "The Shawshank Redemption",
     duration: 142,
     genre: "Drama",
     description:
       "Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.",
-    createdAt: "2023-03-24T12:00:00.000Z",
-    updatedAt: "2023-03-24T12:00:00.000Z",
+    published_at: new Date("1994-09-23"),
+    image: {
+      url: "https://res.cloudinary.com/dv13g84vz/image/upload/v1729108905/s57zlt5gzs3zcdnirvyg.jpg",
+      publicId: "s57zlt5gzs3zcdnirvyg",
+    },
+    video: {
+      url: null,
+      format: null,
+    },
+    visibility: "public",
   },
   {
-    _id: "640a1234567890abcdef0104",
-    title: "The Dark Knight",
-    duration: 152,
-    genre: "Action",
-    description:
-      "Batman, Gordon, and Harvey Dent form an alliance to dismantle organized crime in Gotham City.",
-    createdAt: "2023-03-24T12:00:00.000Z",
-    updatedAt: "2023-03-24T12:00:00.000Z",
-  },
-  {
-    _id: "640a1234567890abcdef0105",
-    title: "Interstellar",
-    duration: 169,
-    genre: "Sci-Fi",
-    description:
-      "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-    createdAt: "2023-03-24T12:00:00.000Z",
-    updatedAt: "2023-03-24T12:00:00.000Z",
-  },
-  {
-    _id: "640a1234567890abcdef0106",
     title: "Forrest Gump",
     duration: 142,
     genre: "Drama",
     description:
-      "The story of a man who witnesses and influences several major historical events in the United States from the 1950s to the 1990s.",
-    createdAt: "2023-03-24T12:00:00.000Z",
-    updatedAt: "2023-03-24T12:00:00.000Z",
+      "The presidencies of Kennedy and Johnson, the Vietnam War, the Watergate scandal and other historical events unfold through the perspective of an Alabama man.",
+    published_at: new Date("1994-07-06"),
+    image: {
+      url: "https://res.cloudinary.com/dv13g84vz/image/upload/v1729108905/s57zlt5gzs3zcdnirvyg.jpg",
+      publicId: "s57zlt5gzs3zcdnirvyg",
+    },
+    video: {
+      url: null,
+      format: null,
+    },
+    visibility: "public",
   },
   {
-    _id: "640a1234567890abcdef0107",
-    title: "The Lord of the Rings: The Fellowship of the Ring",
-    duration: 178,
-    genre: "Fantasy",
+    title: "Fight Club",
+    duration: 139,
+    genre: "Drama",
     description:
-      "A hobbit, his Gandalf and their companions set out on a journey to destroy a powerful item which threatens their entire land.",
-    createdAt: "2023-03-24T12:00:00.000Z",
-    updatedAt: "2023-03-24T12:00:00.000Z",
+      "An insomniac office worker and a devil-may-care soap maker form an underground fight club that evolves into an anarchic revolution.",
+    published_at: new Date("1999-10-15"),
+    image: {
+      url: "https://res.cloudinary.com/dv13g84vz/image/upload/v1729108905/s57zlt5gzs3zcdnirvyg.jpg",
+      publicId: "s57zlt5gzs3zcdnirvyg",
+    },
+    video: {
+      url: null,
+      format: null,
+    },
+    visibility: "public",
   },
   {
-    _id: "640a1234567890abcdef0108",
+    title: "The Godfather",
+    duration: 175,
+    genre: "Crime",
+    description:
+      "An organized crime dynasty's aging patriarch transfers control of his clandestine empire to his reluctant son.",
+    published_at: new Date("1972-03-24"),
+    image: {
+      url: "https://res.cloudinary.com/dv13g84vz/image/upload/v1729108905/s57zlt5gzs3zcdnirvyg.jpg",
+      publicId: "s57zlt5gzs3zcdnirvyg",
+    },
+    video: {
+      url: null,
+      format: null,
+    },
+    visibility: "public",
+  },
+  {
     title: "Pulp Fiction",
     duration: 154,
     genre: "Crime",
     description:
       "The lives of two mob hitmen, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
-    createdAt: "2023-03-24T12:00:00.000Z",
-    updatedAt: "2023-03-24T12:00:00.000Z",
+    published_at: new Date("1994-10-14"),
+    image: {
+      url: "https://res.cloudinary.com/dv13g84vz/image/upload/v1729108905/s57zlt5gzs3zcdnirvyg.jpg",
+      publicId: "s57zlt5gzs3zcdnirvyg",
+    },
+    video: {
+      url: null,
+      format: null,
+    },
+    visibility: "public",
   },
   {
-    _id: "640a1234567890abcdef0109",
+    title: "The Lord of the Rings: The Return of the King",
+    duration: 201,
+    genre: "Fantasy",
+    description:
+      "Gandalf and Aragorn lead the World of Men against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.",
+    published_at: new Date("2003-12-17"),
+    image: {
+      url: "https://res.cloudinary.com/dv13g84vz/image/upload/v1729108905/s57zlt5gzs3zcdnirvyg.jpg",
+      publicId: "s57zlt5gzs3zcdnirvyg",
+    },
+    video: {
+      url: null,
+      format: null,
+    },
+    visibility: "public",
+  },
+  {
     title: "The Matrix",
     duration: 136,
     genre: "Sci-Fi",
     description:
-      "A computer programmer is awakened from his simulated reality and must confront the realities of the world as he knows it.",
-    createdAt: "2023-03-24T12:00:00.000Z",
-    updatedAt: "2023-03-24T12:00:00.000Z",
+      "A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.",
+    published_at: new Date("1999-03-31"),
+    image: {
+      url: "https://res.cloudinary.com/dv13g84vz/image/upload/v1729108905/s57zlt5gzs3zcdnirvyg.jpg",
+      publicId: "s57zlt5gzs3zcdnirvyg",
+    },
+    video: {
+      url: null,
+      format: null,
+    },
+    visibility: "public",
   },
   {
-    _id: "640a1234567890abcdef0110",
-    title: "Fight Club",
-    duration: 139,
-    genre: "Drama",
+    title: "Gladiator",
+    duration: 155,
+    genre: "Action",
     description:
-      "An insomniac office worker, looking for a way to change his life, crosses paths with a devil-may-care soap maker, forming an underground fight club that evolves into something much, much more.",
-    createdAt: "2023-03-24T12:00:00.000Z",
-    updatedAt: "2023-03-24T12:00:00.000Z",
+      "A former Roman general sets out to exact vengeance against the corrupt emperor who murdered his family and sent him into slavery.",
+    published_at: new Date("2000-05-05"),
+    image: {
+      url: "https://res.cloudinary.com/dv13g84vz/image/upload/v1729108905/s57zlt5gzs3zcdnirvyg.jpg",
+      publicId: "s57zlt5gzs3zcdnirvyg",
+    },
+    video: {
+      url: null,
+      format: null,
+    },
+    visibility: "public",
+  },
+  {
+    title: "Titanic",
+    duration: 195,
+    genre: "Romance",
+    description:
+      "A seventeen-year-old aristocrat falls in love with a kind but poor artist aboard the luxurious, ill-fated R.M.S. Titanic.",
+    published_at: new Date("1997-12-19"),
+    image: {
+      url: "https://res.cloudinary.com/dv13g84vz/image/upload/v1729108905/s57zlt5gzs3zcdnirvyg.jpg",
+      publicId: "s57zlt5gzs3zcdnirvyg",
+    },
+    video: {
+      url: null,
+      format: null,
+    },
+    visibility: "public",
+  },
+  {
+    title: "The Social Network",
+    duration: 120,
+    genre: "Biography",
+    description:
+      "As Harvard students create the social networking site that would become known as Facebook, they must deal with fallout from friends and foes.",
+    published_at: new Date("2010-10-01"),
+    image: {
+      url: "https://res.cloudinary.com/dv13g84vz/image/upload/v1729108905/s57zlt5gzs3zcdnirvyg.jpg",
+      publicId: "s57zlt5gzs3zcdnirvyg",
+    },
+    video: {
+      url: null,
+      format: null,
+    },
+    visibility: "public",
   },
 ];
+
+module.exports = { movies };

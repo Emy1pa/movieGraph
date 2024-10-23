@@ -1,11 +1,12 @@
-import Movie from "./models/Movie.mjs";
-import Screen from "./models/Screen.mjs";
-import Room from "./models/Room.mjs";
-import { screenings } from "./screenData.mjs";
-import { movies } from "./data.mjs";
-import { rooms } from "./roomData.mjs";
-import connectToDB from "./config/db.mjs";
-import dotenv from "dotenv";
+const { Movie } = require("./models/Movie");
+const { Screen } = require("./models/Screen");
+const { Room } = require("./models/Room");
+
+const { screenings } = require("./screenData");
+const { movies } = require("./data");
+const { rooms } = require("./roomData");
+const connectToDB = require("./config/db");
+const dotenv = require("dotenv");
 
 dotenv.config();
 connectToDB();

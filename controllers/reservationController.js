@@ -1,10 +1,13 @@
-const Reservation = require("../models/Reservation");
-const Room = require("../models/Room");
-const Screen = require("../models/Screen");
-const User = require("../models/User");
+const { Room } = require("../models/Room");
+const { Screen } = require("../models/Screen");
+const { User } = require("../models/User");
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
-
+const {
+  Reservation,
+  validateReservation,
+  validateUpdateReservation,
+} = require("../models/Reservation");
 dotenv.config();
 
 const transporter = nodemailer.createTransport({
@@ -121,6 +124,8 @@ async function createReservation(req, res) {
 
 async function getReservations(req, res) {
   try {
+    console.log("hello");
+
     const reservations = await Reservation.find()
       .populate("user", "-password")
       .populate("screening")
@@ -217,6 +222,26 @@ async function deleteReservation(req, res) {
     res.status(500).json({ message: "Something went wrong" });
   }
 }
+async function getUserReservations(req, res) {
+  try {
+    const userId = req.params.userId;
+
+    const reservations = await Reservation.find({ user: userId })
+      .populate("screening")
+      .populate("room");
+
+    if (!reservations || reservations.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No reservations found for this user." });
+    }
+
+    res.status(200).json(reservations);
+  } catch (error) {
+    console.error("Error fetching user reservations:", error);
+    res.status(500).json({ message: "Something went wrong." });
+  }
+}
 
 module.exports = {
   createReservation,
@@ -224,4 +249,5 @@ module.exports = {
   getReservationById,
   updateReservation,
   deleteReservation,
+  getUserReservations,
 };

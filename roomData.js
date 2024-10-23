@@ -1,4 +1,4 @@
-exports.rooms = [
+const rooms = [
   {
     _id: "640a1234567890abcdef0001",
     name: "Room A",
@@ -10,6 +10,10 @@ exports.rooms = [
     seatsPerRow: 5,
     createdAt: "2023-03-24T12:00:00.000Z",
     updatedAt: "2023-03-24T12:00:00.000Z",
+    screenings: [
+      "640b1234567890abcdef0001", // ID de screening associé
+      "640b1234567890abcdef0002",
+    ],
   },
   {
     _id: "640a1234567890abcdef0002",
@@ -22,6 +26,7 @@ exports.rooms = [
     seatsPerRow: 5,
     createdAt: "2023-03-24T12:00:00.000Z",
     updatedAt: "2023-03-24T12:00:00.000Z",
+    screenings: ["640b1234567890abcdef0003"],
   },
   {
     _id: "640a1234567890abcdef0003",
@@ -34,6 +39,7 @@ exports.rooms = [
     seatsPerRow: 5,
     createdAt: "2023-03-24T12:00:00.000Z",
     updatedAt: "2023-03-24T12:00:00.000Z",
+    screenings: ["640b1234567890abcdef0004", "640b1234567890abcdef0005"],
   },
   {
     _id: "640a1234567890abcdef0004",
@@ -46,6 +52,7 @@ exports.rooms = [
     seatsPerRow: 5,
     createdAt: "2023-03-24T12:00:00.000Z",
     updatedAt: "2023-03-24T12:00:00.000Z",
+    screenings: ["640b1234567890abcdef0006"],
   },
   {
     _id: "640a1234567890abcdef0005",
@@ -58,6 +65,7 @@ exports.rooms = [
     seatsPerRow: 5,
     createdAt: "2023-03-24T12:00:00.000Z",
     updatedAt: "2023-03-24T12:00:00.000Z",
+    screenings: ["640b1234567890abcdef0007"],
   },
   {
     _id: "640a1234567890abcdef0006",
@@ -70,6 +78,7 @@ exports.rooms = [
     seatsPerRow: 5,
     createdAt: "2023-03-24T12:00:00.000Z",
     updatedAt: "2023-03-24T12:00:00.000Z",
+    screenings: [],
   },
   {
     _id: "640a1234567890abcdef0007",
@@ -82,6 +91,7 @@ exports.rooms = [
     seatsPerRow: 5,
     createdAt: "2023-03-24T12:00:00.000Z",
     updatedAt: "2023-03-24T12:00:00.000Z",
+    screenings: ["640b1234567890abcdef0008", "640b1234567890abcdef0009"],
   },
   {
     _id: "640a1234567890abcdef0008",
@@ -94,6 +104,7 @@ exports.rooms = [
     seatsPerRow: 5,
     createdAt: "2023-03-24T12:00:00.000Z",
     updatedAt: "2023-03-24T12:00:00.000Z",
+    screenings: [],
   },
   {
     _id: "640a1234567890abcdef0009",
@@ -106,6 +117,7 @@ exports.rooms = [
     seatsPerRow: 5,
     createdAt: "2023-03-24T12:00:00.000Z",
     updatedAt: "2023-03-24T12:00:00.000Z",
+    screenings: [],
   },
   {
     _id: "640a1234567890abcdef0010",
@@ -118,5 +130,10 @@ exports.rooms = [
     seatsPerRow: 5,
     createdAt: "2023-03-24T12:00:00.000Z",
     updatedAt: "2023-03-24T12:00:00.000Z",
+    screenings: ["640b1234567890abcdef0010"],
   },
 ];
+
+module.exports = {
+  rooms,
+};

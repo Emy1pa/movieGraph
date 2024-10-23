@@ -36,6 +36,22 @@ const MovieSchema = new mongoose.Schema(
         publicId: null,
       },
     },
+    video: {
+      type: Object,
+      default: {
+        url: null,
+        format: null,
+      },
+    },
+    published_at: {
+      type: Date,
+      required: true,
+    },
+    visibility: {
+      type: String,
+      enum: ["public", "private"],
+      default: "public",
+    },
   },
   {
     timestamps: true,
@@ -52,6 +68,12 @@ function validateMovie(movie) {
       url: Joi.string().uri(),
       publicId: Joi.string().allow(null),
     }),
+    video: Joi.object({
+      url: Joi.string().uri().allow(null),
+      format: Joi.string().allow(null),
+    }),
+    published_at: Joi.date().required(),
+    visibility: Joi.string().valid("public", "private"),
   });
   return schema.validate(movie);
 }
@@ -66,6 +88,12 @@ function validateUpdateMovie(movie) {
       url: Joi.string().uri(),
       publicId: Joi.string().allow(null),
     }),
+    video: Joi.object({
+      url: Joi.string().uri().allow(null),
+      format: Joi.string().allow(null),
+    }),
+    published_at: Joi.date(),
+    visibility: Joi.string().valid("public", "private"),
   });
   return schema.validate(movie);
 }

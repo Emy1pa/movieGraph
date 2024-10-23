@@ -26,6 +26,16 @@ describe("User Registration Validation", () => {
     expect(error).toBeDefined();
     expect(error.details[0].message).toContain("email");
   });
+  it("should return an error for missing password", () => {
+    const invalidUser = {
+      firstName: "John",
+      lastName: "Doe",
+      email: "foo@example.com",
+    };
+    const { error } = validateRegisterUser(invalidUser);
+    expect(error).toBeDefined();
+    expect(error.details[0].message).toContain("password");
+  });
 });
 
 describe("Password Hashing", () => {
@@ -55,6 +65,23 @@ describe("User Login Validation", () => {
       password: "StrongPass123!",
     };
     const { error } = validateLoginUser(invalidLogin);
+    expect(error).toBeDefined();
+    expect(error.details[0].message).toContain("email");
+  });
+  it("should return an error for invalid password format", () => {
+    const invalidPassword = {
+      email: "imane@example.com",
+      password: "12",
+    };
+    const { error } = validateLoginUser(invalidPassword);
+    expect(error).toBeDefined();
+    expect(error.details[0].message).toContain("password");
+  });
+  it("should return an error for missing email", () => {
+    const missingEmail = {
+      password: "StrongPass123",
+    };
+    const { error } = validateLoginUser(missingEmail);
     expect(error).toBeDefined();
     expect(error.details[0].message).toContain("email");
   });
